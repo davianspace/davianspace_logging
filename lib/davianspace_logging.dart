@@ -31,6 +31,17 @@
 /// - `SimpleFormatter`  – single-line human-readable output.
 /// - `JsonFormatter`    – structured single-line JSON output.
 ///
+/// ## Quick setup
+/// - `DavianLogger`         – static helper; `DavianLogger.quick()` returns a
+///   console-backed logger with sensible defaults.
+///
+/// ## Extensions
+/// - `LoggerTagExtension`       – `logTagged` / `infoTagged` etc. for tag-based routing.
+/// - `LoggerExceptionExtension` – `logException(error, stackTrace)` helper.
+///
+/// ## Integrations
+/// - `HttpLogInterceptor` – framework-agnostic HTTP request/response/error logger.
+///
 /// ## Utilities
 /// - `TimestampProvider`    – injectable clock abstraction.
 /// - `UtcTimestampProvider` – default UTC clock implementation.
@@ -67,16 +78,21 @@ export 'src/abstractions/logger.dart';
 export 'src/abstractions/logger_factory.dart';
 export 'src/abstractions/logger_provider.dart';
 // ── Core ───────────────────────────────────────────────────────────────────
+export 'src/core/davian_logger.dart';
 export 'src/core/filter_rules.dart';
 export 'src/core/logger_factory_impl.dart';
 export 'src/core/logger_impl.dart' show EventLogger, LoggerEntry;
 export 'src/core/logging_scope.dart';
 // ── Extensions ─────────────────────────────────────────────────────────────
+export 'src/extensions/logger_exception_extension.dart';
+export 'src/extensions/logger_tag_extension.dart';
 export 'src/extensions/logging_di_extensions.dart';
 // ── Formatting ─────────────────────────────────────────────────────────────
 export 'src/formatting/json_formatter.dart';
 export 'src/formatting/log_formatter.dart';
 export 'src/formatting/simple_formatter.dart';
+// ── Integrations ───────────────────────────────────────────────────────────
+export 'src/integrations/http_log_interceptor.dart';
 // ── Providers ──────────────────────────────────────────────────────────────
 export 'src/providers/console_logger.dart';
 export 'src/providers/debug_logger.dart';

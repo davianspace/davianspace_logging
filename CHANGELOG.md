@@ -7,6 +7,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.4] – 2026-02-26
+
+### Added
+
+- **Tag-based logging** (`LoggerTagExtension`) — extension on `Logger` adding
+  `logTagged`, `traceTagged`, `debugTagged`, `infoTagged`, `warningTagged`,
+  `errorTagged`, and `criticalTagged` helpers. Tags are stored in
+  `LogEvent.properties` under the reserved key `LoggerTagExtension.tagKey`
+  (`'tag'`). Fully backward-compatible; existing `log()` calls are unchanged.
+- **`MemoryLogStore.eventsForTag(String tag)`** — query all stored events by
+  tag, complementing the existing `eventsForCategory` and `eventsAtOrAbove`
+  helpers.
+- **`MemoryLogStore.exportAsJson()`** — serialise the entire in-memory event
+  log to a JSON string, suitable for snapshotting test state or reporting.
+  `MemoryLogStore.clear()` already existed and continues to work as before.
+- **`LoggerExceptionExtension`** — extension on `Logger` adding
+  `logException(Object error, StackTrace stackTrace, {LogLevel level, String?
+  message, Map? properties})`. Automatically formats the error type and message
+  into structured `errorType` / `errorMessage` properties and reuses the
+  existing `Logger.log` infrastructure unchanged.
+- **`DavianLogger`** — static quick-setup helper. `DavianLogger.quick()` returns
+  a console-backed `Logger` with sensible defaults (category `'App'`, minimum
+  level `LogLevel.debug`) without requiring a full `LoggingBuilder` setup.
+  Also exposes `DavianLogger.quickFactory()` and `DavianLogger.disposeQuickFactory()`.
+- **`HttpLogInterceptor`** — framework-agnostic HTTP logging helper. Wraps a
+  `Logger` and exposes `onRequest`, `onResponse`, and `onError` callbacks that
+  can be wired into Dio, `package:http`, or any other HTTP client without
+  introducing a mandatory dependency on any network package.
+
+### Improvements
+
+- Barrel file (`davianspace_logging.dart`) updated with new export sections
+  for **Extensions** (`logger_exception_extension`, `logger_tag_extension`)
+  and **Integrations** (`http_log_interceptor`), and the new **Core** export
+  `davian_logger`.
+- Library doc comment updated to list all new public APIs.
+- Zero new analyzer warnings; all 167 tests pass (120 pre-existing +
+  47 new tests covering the five added feature areas).
+
+---
+
 ## [1.0.3] – 2026-02-25
 
 ### Added

@@ -1,4 +1,5 @@
 import 'dart:collection' show ListQueue;
+import 'dart:convert' show json;
 
 import '../abstractions/log_event.dart';
 import '../abstractions/log_level.dart';
@@ -66,8 +67,59 @@ final class MemoryLogStore {
   List<LogEvent> eventsForCategory(String category) =>
       _events.where((e) => e.category == category).toList();
 
+  /// Returns all events that carry the given [tag] in their properties.
+  ///
+  /// Tags are typically added via `LoggerTagExtension.logTagged` and stored
+  /// under the `'tag'` key in [LogEvent.properties].
+  ///
+  /// ```dart
+  /// logger.infoTagged('auth', 'User signed in');
+  /// store.eventsForTag('auth'); // returns the event above
+  /// ```
+  List<LogEvent> eventsForTag(String tag) =>
+      _events.where((e) => e.properties['tag'] == tag).toList();
+
   /// Removes all stored events.
   void clear() => _events.clear();
+
+  /// Exports all stored events as a JSON-encoded string.
+  ///
+  /// Each event is serialized to an object with the following fields:
+  /// - `timestamp`: ISO-8601 UTC string.
+  /// - `level`: level name lowercase (e.g. `'info'`).
+  /// - `category`: logger category string.
+  /// - `message`: human-readable log message.
+  /// - `properties`: structured properties map (omitted when empty).
+  /// - `scopeProperties`: scope-injected properties (omitted when empty).
+  /// - `error`: error description (omitted when absent).
+  /// - `stackTrace`: stack trace string (omitted when absent).
+  ///
+  /// Returns `'[]'` when the store is empty.
+  ///
+  /// ```dart
+  /// final jsonString = store.exportAsJson();
+  /// ```
+  String exportAsJson() => json.encode(
+        _events.map(_eventToJsonMap).toList(),
+      );
+
+  static Map<String, Object?> _eventToJsonMap(LogEvent event) {
+    final map = <String, Object?>{
+      'timestamp': event.timestamp.toIso8601String(),
+      'level': event.level.name,
+      'category': event.category,
+      'message': event.message,
+    };
+    if (event.properties.isNotEmpty) map['properties'] = event.properties;
+    if (event.scopeProperties.isNotEmpty) {
+      map['scopeProperties'] = event.scopeProperties;
+    }
+    if (event.error != null) map['error'] = event.error.toString();
+    if (event.stackTrace != null) {
+      map['stackTrace'] = event.stackTrace.toString();
+    }
+    return map;
+  }
 
   /// Adds [event] to the store.
   ///
