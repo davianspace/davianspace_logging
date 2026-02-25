@@ -71,6 +71,8 @@ export 'src/core/filter_rules.dart';
 export 'src/core/logger_factory_impl.dart';
 export 'src/core/logger_impl.dart' show EventLogger, LoggerEntry;
 export 'src/core/logging_scope.dart';
+// ── Extensions ─────────────────────────────────────────────────────────────
+export 'src/extensions/logging_di_extensions.dart';
 // ── Formatting ─────────────────────────────────────────────────────────────
 export 'src/formatting/json_formatter.dart';
 export 'src/formatting/log_formatter.dart';

@@ -1,6 +1,6 @@
 name: davianspace_logging
 description: Logging framework for Dart and Flutter inspired by Microsoft.Extensions.Logging with providers, filtering, scopes, structured logs, and JSON output.
-version: 1.0.0
+version: 1.0.3
 homepage: https://github.com/davianspace/davianspace_logging
 repository: https://github.com/davianspace/davianspace_logging
 issue_tracker: https://github.com/davianspace/davianspace_logging/issues
@@ -16,8 +16,9 @@ topics:
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
-dependencies: {}
+dependencies:
+  davianspace_dependencyinjection: ^1.0.3
 
 dev_dependencies:
-  lints: ^3.0.0
+  lints: ^6.0.0
   test: ^1.24.0

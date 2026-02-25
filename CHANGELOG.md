@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.3] – 2026-02-25
+
+### Added
+
+- `davianspace_dependencyinjection` integration — `addLogging()` extension on `ServiceCollection` registers a singleton `LoggerFactory` (with auto-disposal) and a transient `Logger`.
+
+---
+
 ## [1.0.0] – 2026-02-25
 
 ### Added
